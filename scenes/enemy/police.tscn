@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://l8j065vt4s28"]
+
+[ext_resource type="Texture2D" uid="uid://byorwrgq8h08a" path="res://assets/game elements.png" id="1_3gg7k"]
+[ext_resource type="Script" path="res://scenes/enemy/enemy.gd" id="2_8pqxd"]
+[ext_resource type="AudioStream" uid="uid://da8m38kx8en75" path="res://sound/police-siren.mp3" id="3_w5soi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pjnos"]
+size = Vector2(70.0001, 140)
+
+[node name="Police" type="Area2D"]
+position = Vector2(80, 149)
+rotation = 3.14159
+scale = Vector2(0.7, 0.7)
+collision_layer = 0
+script = ExtResource("2_8pqxd")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_3gg7k")
+centered = false
+region_enabled = true
+region_rect = Rect2(488, 260, 96, 205)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(49.2854, 100)
+scale = Vector2(0.999998, 0.999998)
+shape = SubResource("RectangleShape2D_pjnos")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(45.7143, 388.571)
+
+[node name="sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_w5soi")
+autoplay = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_screen_exit"]

@@ -1,0 +1,80 @@
+[gd_scene load_steps=14 format=3 uid="uid://bf8xu7x3dlcr"]
+
+[ext_resource type="PackedScene" uid="uid://cryjc2lk8wvhg" path="res://scenes/parallax/parallax_bg.tscn" id="1_km05m"]
+[ext_resource type="Script" path="res://scenes/game/game.gd" id="1_ltfxn"]
+[ext_resource type="PackedScene" uid="uid://moyx6ibigauo" path="res://scenes/enemy/car.tscn" id="2_1id8q"]
+[ext_resource type="Texture2D" uid="uid://btwn7w1r1j7bu" path="res://assets/road.png" id="2_cff5i"]
+[ext_resource type="PackedScene" uid="uid://bt6wur88dlaek" path="res://scenes/player/player.tscn" id="3_ttnrx"]
+[ext_resource type="PackedScene" uid="uid://jtxr8ocjcjai" path="res://scenes/barrier/barrier.tscn" id="4_few3b"]
+[ext_resource type="PackedScene" uid="uid://l8j065vt4s28" path="res://scenes/enemy/police.tscn" id="4_kidy7"]
+[ext_resource type="PackedScene" uid="uid://dykorum1hey1y" path="res://scenes/coins/coinOne.tscn" id="5_srufo"]
+[ext_resource type="PackedScene" uid="uid://hwrgt1cqr6nq" path="res://scenes/enemy/truck.tscn" id="5_u0ndl"]
+[ext_resource type="PackedScene" uid="uid://cqc70ad8na8d2" path="res://scenes/fuel/fuel.tscn" id="6_jy8q7"]
+[ext_resource type="PackedScene" uid="uid://lpj1kqhs2o4a" path="res://scenes/barrier/barrier-right.tscn" id="8_3f1xg"]
+[ext_resource type="PackedScene" uid="uid://hjnhd652myvy" path="res://scenes/HUD/Score_HUD.tscn" id="11_1o1sq"]
+[ext_resource type="PackedScene" uid="uid://2frm44tx2t42" path="res://scenes/gameover/GameOver.tscn" id="12_aeyur"]
+
+[node name="Game" type="Node2D"]
+position = Vector2(-29, 0)
+script = ExtResource("1_ltfxn")
+enemies = Array[PackedScene]([ExtResource("2_1id8q"), ExtResource("5_u0ndl"), ExtResource("4_kidy7")])
+coins = Array[PackedScene]([ExtResource("5_srufo")])
+fuel = ExtResource("6_jy8q7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(31, 0)
+scale = Vector2(0.715385, 0.715385)
+texture = ExtResource("2_cff5i")
+centered = false
+
+[node name="Player" parent="." instance=ExtResource("3_ttnrx")]
+position = Vector2(402, 700)
+
+[node name="BarrierLeft" parent="." instance=ExtResource("4_few3b")]
+position = Vector2(75, -7)
+
+[node name="BarrierRight" parent="." instance=ExtResource("8_3f1xg")]
+position = Vector2(556, 424)
+
+[node name="MarkHolder" type="Node" parent="."]
+
+[node name="Mark1" type="Marker2D" parent="MarkHolder"]
+position = Vector2(433, -8)
+
+[node name="Mark2" type="Marker2D" parent="MarkHolder"]
+position = Vector2(316, -8)
+
+[node name="Mark4" type="Marker2D" parent="MarkHolder"]
+position = Vector2(194, -12)
+
+[node name="EnemyHolder" type="Node" parent="."]
+
+[node name="CoinHolder" type="Node" parent="."]
+
+[node name="EnemySpawnTimer" type="Timer" parent="."]
+wait_time = 1.5
+autostart = true
+
+[node name="CoinTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Hud" parent="CanvasLayer" instance=ExtResource("11_1o1sq")]
+
+[node name="ParallaxBg" parent="CanvasLayer" instance=ExtResource("1_km05m")]
+
+[node name="GameOver" parent="CanvasLayer" instance=ExtResource("12_aeyur")]
+visible = false
+
+[node name="FuelSpawnTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[node name="FuelHolder" type="Node" parent="."]
+
+[connection signal="timeout" from="EnemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]
+[connection signal="timeout" from="CoinTimer" to="." method="_on_coin_timer_timeout"]
+[connection signal="timeout" from="FuelSpawnTimer" to="." method="_on_fuel_spawn_timer_timeout"]

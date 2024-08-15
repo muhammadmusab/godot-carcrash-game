@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://bt6wur88dlaek"]
+
+[ext_resource type="Script" path="res://scenes/player/Player.gd" id="1_8syl3"]
+[ext_resource type="Texture2D" uid="uid://byorwrgq8h08a" path="res://assets/game elements.png" id="2_4bswf"]
+[ext_resource type="AudioStream" uid="uid://cof1f1cfln33n" path="res://sound/engineSound.wav" id="3_5junt"]
+[ext_resource type="AudioStream" uid="uid://02coe5d3mm7y" path="res://sound/engine.mp3" id="3_divea"]
+[ext_resource type="AudioStream" uid="uid://byrew0melyjp4" path="res://sound/carHitSound.wav" id="4_blox4"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uk7fy"]
+radius = 34.0
+height = 141.0
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+z_index = -1
+collision_mask = 2
+script = ExtResource("1_8syl3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("2_4bswf")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 448, 104, 200)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(37, 71)
+shape = SubResource("CapsuleShape2D_uk7fy")
+
+[node name="engineSpeed" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_5junt")
+autoplay = true
+
+[node name="engineNormal" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_divea")
+
+[node name="carHitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_blox4")
+
+[node name="fuelTimer" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
+
+[connection signal="timeout" from="fuelTimer" to="." method="_on_fuel_timer_timeout"]

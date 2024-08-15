@@ -1,0 +1,136 @@
+[gd_scene load_steps=11 format=3 uid="uid://cxekxrp86he4y"]
+
+[ext_resource type="Texture2D" uid="uid://d3k70f41ohf7y" path="res://assets/background.png" id="1_5qx6m"]
+[ext_resource type="Script" path="res://scenes/main/main.gd" id="1_r8wui"]
+[ext_resource type="FontFile" uid="uid://qa1keaxfvdtf" path="res://font/Skranji-Bold.ttf" id="2_x14jh"]
+[ext_resource type="AudioStream" uid="uid://bvaac7ijcvu3q" path="res://sound/bgm_menu.mp3" id="4_4cpf8"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_e52yi"]
+line_spacing = 10.0
+font = ExtResource("2_x14jh")
+font_size = 72
+font_color = Color(0.0705882, 0.117647, 0.482353, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ylo8i"]
+font = ExtResource("2_x14jh")
+font_size = 48
+font_color = Color(0.0705882, 0.117647, 0.482353, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_temng"]
+font = ExtResource("2_x14jh")
+font_size = 36
+font_color = Color(0.0705882, 0.117647, 0.482353, 1)
+
+[sub_resource type="Animation" id="Animation_2hjuy"]
+resource_name = "fade"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MC/pressSpace:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_xqya1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MC/pressSpace:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bh6aj"]
+_data = {
+"RESET": SubResource("Animation_xqya1"),
+"fade": SubResource("Animation_2hjuy")
+}
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_r8wui")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -56.0
+offset_top = -3.0
+offset_right = 254.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_5qx6m")
+
+[node name="MC" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="Title" type="Label" parent="MC"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Car Crash
+"
+label_settings = SubResource("LabelSettings_e52yi")
+horizontal_alignment = 1
+
+[node name="pressSpace" type="Label" parent="MC"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Press Space
+To Play"
+label_settings = SubResource("LabelSettings_ylo8i")
+horizontal_alignment = 1
+
+[node name="HSText" type="Label" parent="MC"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "High Score"
+label_settings = SubResource("LabelSettings_temng")
+horizontal_alignment = 1
+
+[node name="HScore" type="Label" parent="MC"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "000"
+label_settings = SubResource("LabelSettings_temng")
+horizontal_alignment = 1
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_4cpf8")
+autoplay = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_bh6aj")
+}
+autoplay = "fade"
